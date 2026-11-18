@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BES Journaal</title>
+<style>
+:root{
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#0d1238;--bg2:#161f5c;--card:#1d2975;--ink:#ffffff;--muted:#c4cbff;--yellow:#ffd23f;--pink:#ff5ea8;--cyan:#1fb6ff;--onyellow:#14206b;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){--bg:#f1f4ff;--bg2:#dfe5ff;--card:#ffffff;--ink:#14206b;--muted:#46528f;}
+}
+:root[data-theme="light"]{--bg:#f1f4ff;--bg2:#dfe5ff;--card:#ffffff;--ink:#14206b;--muted:#46528f;}
+:root[data-theme="dark"]{--bg:#0d1238;--bg2:#161f5c;--card:#1d2975;--ink:#ffffff;--muted:#c4cbff;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif;line-height:1.55;overflow-x:hidden}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:4px solid var(--yellow)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:10px;padding-bottom:10px;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo b{background:var(--yellow);color:var(--onyellow);font-family:"Arial Black",Impact,sans-serif;font-size:1.6rem;padding:2px 12px;border-radius:10px;transform:rotate(-3deg);display:inline-block}
+.logo span{font-weight:700;letter-spacing:.2em;font-size:.95rem}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{color:var(--ink);text-decoration:none;font-weight:700;padding:6px 12px;border-radius:999px}
+nav a:hover,nav a:focus-visible{background:var(--pink);color:#fff;outline:none}
+.live{background:var(--pink);color:#fff;font-weight:700;padding:8px 0;overflow:hidden;white-space:nowrap}
+.live .track{display:inline-block;padding-left:100%;animation:tick 40s linear infinite}
+@keyframes tick{to{transform:translateX(-100%)}}
+.hero{padding:44px 0 30px;background:radial-gradient(circle at 80% 20%,var(--bg2),transparent 60%)}
+.hero .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:34px;align-items:center}
+h1{font-family:"Arial Black",Impact,sans-serif;font-size:clamp(2.2rem,6vw,4rem);line-height:1.02;margin:0 0 14px}
+h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--pink) 62%)}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:34ch;margin:0 0 20px}
+.btn{display:inline-block;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:1.05rem;padding:12px 22px;border-radius:14px;background:var(--yellow);color:var(--onyellow);text-decoration:none;box-shadow:0 5px 0 #b8901a;transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #b8901a}
+.btn.alt{background:var(--cyan);box-shadow:0 5px 0 #0c7ab3;color:#06214a}
+.tv{position:relative;aspect-ratio:16/9;border-radius:22px;border:10px solid #070b26;background:linear-gradient(135deg,#17a2ff,#5b4bff 55%,#c13cff);box-shadow:0 18px 40px rgba(0,0,0,.4);display:grid;place-items:center;text-align:center;overflow:hidden}
+.tv::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.08) 0 2px,transparent 2px 5px);pointer-events:none}
+.tv .big{font-family:"Arial Black",Impact,sans-serif;font-size:clamp(2.6rem,9vw,5.4rem);color:var(--yellow);text-shadow:0 4px 0 rgba(0,0,0,.25);line-height:1}
+.tv .sub{color:#fff;letter-spacing:.3em;font-weight:700}
+.tv .play{margin-top:14px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:#14206b;font-weight:700;border-radius:999px;padding:8px 16px;font-size:.95rem}
+.tv .corner{position:absolute;top:12px;left:12px;background:var(--pink);color:#fff;font-weight:700;font-size:.85rem;padding:3px 10px;border-radius:8px}
+h2{font-family:"Arial Black",Impact,sans-serif;font-size:clamp(1.6rem,4vw,2.3rem);margin:0 0 6px}
+section{padding:40px 0}
+.lead{color:var(--muted);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+.card{background:var(--card);border-radius:20px;padding:18px;border-left:8px solid var(--c,var(--cyan));display:flex;flex-direction:column;gap:8px}
+.card .ico{font-size:2.6rem;line-height:1}
+.card h3{margin:0;font-size:1.2rem;line-height:1.25}
+.card p{margin:0;color:var(--muted)}
+.card .more{display:none}
+.card.open .more{display:block;color:var(--ink);border-top:2px dashed var(--muted);padding-top:10px}
+.card button{align-self:flex-start;margin-top:auto;background:var(--c,var(--cyan));color:#06214a;border:0;font:inherit;font-weight:700;border-radius:999px;padding:7px 16px;cursor:pointer}
+.card button:focus-visible,.btn:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.team div{background:var(--card);border-radius:20px;padding:18px;text-align:center}
+.team .av{width:72px;height:72px;border-radius:50%;margin:0 auto 8px;display:grid;place-items:center;font-size:2rem;background:var(--c)}
+.team h3{margin:0}
+.team p{margin:2px 0 0;color:var(--muted)}
+footer{background:#070b26;color:#c4cbff;padding:26px 0;text-align:center;border-top:4px solid var(--pink)}
+footer p{margin:4px 0}
+.theme{background:var(--card);color:var(--ink);border:2px solid var(--muted);border-radius:999px;font:inherit;font-weight:700;padding:6px 14px;cursor:pointer}
+#rain{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.nug{position:absolute;top:-60px;font-size:2rem;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(115vh) rotate(360deg)}}
+@media (max-width:760px){.hero .wrap{grid-template-columns:1fr}nav{display:none}}
+@media (prefers-reduced-motion:reduce){.live .track{animation:none;padding-left:0}.nug{display:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div id="rain" aria-hidden="true"></div>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top"><b>BES</b><span>JOURNAAL</span></a>
+    <nav aria-label="Menu"><a href="#nieuws">Nieuws</a><a href="#kijken">Kijken</a><a href="#team">Het team</a></nav>
+    <button class="theme" id="theme" type="button">🌓 Licht/donker</button>
+  </div>
+</header>
+<div class="live" role="marquee"><div class="track">🔴 NU: EcoFuel-X maakt tanken goedkoper • Een draak boven de Veluwe • LEGO-stad ontdekt onder een fabriek • Het regent kipnuggets in Apeldoorn • Geheime Pirate Shop gevonden in een game • </div></div>
+
+<main id="top">
+<div class="hero"><div class="wrap">
+  <div>
+    <h1>Het nieuws van <em>kids</em>, voor kids.</h1>
+    <p>Elke dag de grootste, gekste en slimste verhalen. Kort uitgelegd, zonder saaie woorden.</p>
+    <a class="btn" href="#nieuws">Lees het nieuws</a>
+    <button class="btn alt" id="nug" type="button">🍗 Laat het regenen!</button>
+  </div>
+  <div class="tv" id="kijken" role="img" aria-label="Televisiescherm van het BES Journaal">
+    <span class="corner">LIVE</span>
+    <div><div class="big">BES</div><div class="sub">JOURNAAL</div><div class="play">▶ Kijk het journaal</div></div>
+  </div>
+</div></div>
+
+<section id="nieuws"><div class="wrap">
+  <h2>Het nieuws van vandaag</h2>
+  <p class="lead">Tik op een kaartje voor het hele verhaal.</p>
+  <div class="grid">
+    <article class="card" style="--c:#7dff8a">
+      <div class="ico">⛽</div><h3>Goedkoper tanken met EcoFuel-X</h3>
+      <p>Een nieuwe brandstof van algen en voedselafval maakt benzine goedkoper.</p>
+      <div class="more">Er staan lange rijen bij tankstations. Onderzoekers zeggen dat EcoFuel-X ook beter is voor het milieu. Sommige experts waarschuwen dat de prijs later weer kan stijgen als iedereen het wil. De overheid onderzoekt of het op grote schaal kan.</div>
+      <button type="button" aria-expanded="false">Lees meer</button>
+    </article>
+    <article class="card" style="--c:#1fb6ff">
+      <div class="ico">📚</div><h3>SmartLearn: huiswerk in 5 minuten?</h3>
+      <p>Wetenschappers in Utrecht maken een slimme helper voor leerlingen.</p>
+      <div class="more">SmartLearn gebruikt kunstmatige intelligentie en legt opdrachten stap voor stap uit. Leerlingen zijn blij met meer vrije tijd. Docenten zijn verdeeld: sommigen zijn bang dat kinderen minder zelf gaan nadenken. Het ministerie onderzoekt het nog.</div>
+      <button type="button" aria-expanded="false">Lees meer</button>
+    </article>
+    <article class="card" style="--c:#55e07a">
+      <div class="ico">🐉</div><h3>Draak gespot boven de Veluwe</h3>
+      <p>Bewoners zijn verrast: er vliegt een draak boven het bos.</p>
+      <div class="more">De draak landde op een open plek en bleek vriendelijk. Hij eet struiken en drinkt water uit een meertje. Experts uit veel landen onderzoeken hem. Een groot gebied is afgezet zodat de draak rust heeft.</div>
+      <button type="button" aria-expanded="false">Lees meer</button>
+    </article>
+    <article class="card" style="--c:#ff5ea8">
+      <div class="ico">🧱</div><h3>Mega LEGO-stad onder verlaten fabriek</h3>
+      <p>De stad is zo groot als 20 voetbalvelden en blijft staan.</p>
+      <div class="more">De fabriek zou gesloopt worden voor een natuurgebied. Toen ze de LEGO-stad vonden, zagen ze dat er zelfs mensen woonden. Nu mag iedereen op bezoek komen.</div>
+      <button type="button" aria-expanded="false">Lees meer</button>
+    </article>
+    <article class="card" style="--c:#ffb347">
+      <div class="ico">🍗</div><h3>Het regent kipnuggets in Apeldoorn</h3>
+      <p>Bewoners verzamelden honderden nuggets in hun tuin.</p>
+      <div class="more">Het gebeurde bij de beroemde kipnuggetfabriek. Deskundigen denken dat een mysterieuze machine de oorzaak is. Vandaag is het zonnig, maar later is er misschien nog een kleine nuggetbui.</div>
+      <button type="button" aria-expanded="false">Lees meer</button>
+    </article>
+    <article class="card" style="--c:#ffd23f">
+      <div class="ico">🏴‍☠️</div><h3>De geheime Pirate Shop in een game</h3>
+      <p>Alleen om middernacht verschijnt een verborgen winkel.</p>
+      <div class="more">Spelers zagen gouden zwaarden, vliegende schepen en een legendarische papegaai. Een speler uit Nederland kocht een kaart naar een verborgen eiland vol piratengoud. Niemand heeft het eiland nog gevonden.</div>
+      <button type="button" aria-expanded="false">Lees meer</button>
+    </article>
+  </div>
+</div></section>
+
+<section id="team" style="background:var(--bg2)"><div class="wrap">
+  <h2>Het BES-team</h2>
+  <p class="lead">Wij maken het journaal. Dit zijn wij!</p>
+  <div class="team">
+    <div style="--c:#ffd23f"><div class="av">🎤</div><h3>Silvijn Bauer</h3><p>Presentator</p></div>
+    <div style="--c:#ff5ea8"><div class="av">✍️</div><h3>Benja Bruining</h3><p>Schrijver</p></div>
+    <div style="--c:#1fb6ff"><div class="av">🎬</div><h3>Ethan van Oost</h3><p>Cameraman</p></div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <p><b>BES Journaal</b> – fijne middag!</p>
+  <p>Alle verhalen op deze site zijn verzonnen en gemaakt voor een schoolproject.</p>
+</div></footer>
+
+<script>
+(function(){
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var b=c.querySelector('button');
+    b.addEventListener('click',function(){
+      var o=c.classList.toggle('open');
+      b.textContent=o?'Lees minder':'Lees meer';
+      b.setAttribute('aria-expanded',o?'true':'false');
+    });
+  });
+  var rain=document.getElementById('rain');
+  document.getElementById('nug').addEventListener('click',function(){
+    for(var i=0;i<40;i++){
+      var n=document.createElement('span');
+      n.className='nug';n.textContent='🍗';
+      n.style.left=Math.random()*100+'vw';
+      n.style.animationDuration=(2+Math.random()*2.5)+'s';
+      n.style.animationDelay=(Math.random()*1)+'s';
+      rain.appendChild(n);
+      (function(el){setTimeout(function(){el.remove()},5500)})(n);
+    }
+  });
+  document.getElementById('theme').addEventListener('click',function(){
+    var r=document.documentElement;
+    var dark=getComputedStyle(r).getPropertyValue('--bg').trim()==='#0d1238';
+    r.setAttribute('data-theme',dark?'light':'dark');
+  });
+})();
+</script>
+</body>
+</html>
